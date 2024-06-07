@@ -13,7 +13,7 @@ This code is designed for reading and writing user parameters on a strobe contro
 Click the image below to watch the demo video:
 
 <a href="https://mavisimaging.sharepoint.com/:v:/s/MaVisSupportTeam/ESevwdnP1iVOlZie2-HMH7YBpTsu3OwHn0McJND4A65gBQ?e=tCGwdZ">
-  <img src="https://github.com/MavisImaging/Strobe_Raw/blob/main/images/thumb.png" width="560" height="315" alt="Watch the video">
+  <img src="https://github.com/MavisImaging/Strobe_Raw/blob/main/images/thumb.png" width="550" height="315" alt="Watch the video">
 </a>
 
 ## About
