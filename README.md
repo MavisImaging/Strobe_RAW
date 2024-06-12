@@ -1,27 +1,29 @@
 # Strobe Controller Communication
 
-## strobeRaw_NetworkP
+Work undertaken by  [Mavis Imaging GmbH](https://www.mavis-imaging.com/) aims to establish effective communication with strobe controllers via raw commands. This code assists customers in efficiently managing network and user parameters.
 
-This code is designed for reading and writing network parameters on a strobe controller (IPSC or HPSC). To use this code, update the IP addresses of both the computer and the strobe. Then, you can write the desired command and utilize the SendPacket function to send it.
+## Folders to Use
 
-## strobeRaw_UserP
+### StrobeRaw_NetworkP
 
-This code is designed for reading and writing user parameters on a strobe controller (IPSC or HPSC). To use this code, simply update the IP address with the appropriate IP address of your strobe controller. Then, you can write the desired command and use the functions sendPacketIPSC or sendPacketHPSC to send it.
+This code is designed for reading and writing network parameters on a strobe controller (IPSC or HPSC). To use this code:
+1. Update the IP addresses of both the computer and the strobe.
+2. Write the desired command.
+3. Utilize the `SendPacket` function to send it.
 
-## Demo Video
+### StrobeRaw_UserP
 
-Click the image below to watch the demo video:
+This code is designed for reading and writing user parameters on a strobe controller (IPSC or HPSC). To use this code:
+1. Update the IP address with the appropriate IP address of your strobe controller.
+2. Write the desired command.
+3. Use the functions `sendPacketIPSC` or `sendPacketHPSC` to send it.
 
-<a href="https://mavisimaging.sharepoint.com/:v:/s/MaVisSupportTeam/ESevwdnP1iVOlZie2-HMH7YBpTsu3OwHn0McJND4A65gBQ?e=tCGwdZ">
-  <img src="https://github.com/MavisImaging/Strobe_Raw/blob/main/images/thumb.png" width="550" height="315" alt="Watch the video">
-</a>
+### Crc-16
+
+In the `crc-16` folder, you can run the code where you only need to add your payload. It will generate the correct codes to introduce in your raw command.
 
 ## About
 
-<img src="images/mavis.png" alt="Mavis Logo" width="400">
+![Mavis Logo](images/mavis.png)
 
-
-
-
-For more information, visit [Mavis Imaging](https://www.mavis-imaging.com/).
-Work undertaken by Mavis Imaging gmbh aims to establish effective communication protocols for strobe controllers, with a focus on assisting customers in efficiently managing network and user parameters.
+For the installation of the ScLib Strobe Controller Configuration Software and Development Kit, visit the [Mavis Imaging Support Tab](https://www.mavis-imaging.com/en/support/). With this installation, you will be able to use the Smartek ScLib API.
