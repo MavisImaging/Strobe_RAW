@@ -24,6 +24,6 @@ In the `crc-16` folder, you can run the code where you only need to add your pay
 
 ## About
 
-![Mavis Logo](images/mavis.png)
+<img src="images/mavis.png" alt="xLogo" width="700">
 
 For the installation of the ScLib Strobe Controller Configuration Software and Development Kit, visit the [Mavis Imaging Support Tab](https://www.mavis-imaging.com/en/support/). With this installation, you will be able to use the Smartek ScLib API.
