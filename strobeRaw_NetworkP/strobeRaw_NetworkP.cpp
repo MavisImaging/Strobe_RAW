@@ -24,15 +24,14 @@ uv_loop_t* g_loop;
 
 // HPSC Commands
 // Set static IP 
-unsigned char requestPacketHPSC[] = { 0x01, 0x27, 0x6C, 0xD1, 0x46, 0x10, 0x01, 0x42, 0x56, 0x00, 0x00, 0x28, 0x00, 0x00, 0x00, 0x10, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2F, 0x56, 0x04 };
+unsigned char requestPacketHPSC[] = { 0x01, 0x27, 0x6C, 0xD1, 0x46, 0x10, 0x01, 0x26, 0x1F, 0x00, 0x00, 0x28, 0x00, 0x00, 0x00, 0x10, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x71, 0xBF, 0x04 };
 
 // New IP:192.168.1.26
-unsigned char requestPacketHPSC1[] = { 0x01, 0x27, 0x6C, 0xD1, 0x46, 0x10, 0x01, 0x42, 0x56, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x10, 0x04, 0x00, 0x00, 0x00,
-0xC0, 0xA8, 0x10, 0x01, 0x1A, 0x54, 0x6A, 0x04 };
+unsigned char requestPacketHPSC1[] = { 0x01, 0x27, 0x6C, 0xD1, 0x46, 0x10, 0x01, 0x26, 0x1F, 0x00, 0x00, 0x20, 0x00, 0x00, 0x00, 0x10, 0x04, 0x00, 0x00, 0x00, 0xC0, 0xA8, 0x10, 0x01, 0x1A, 0x0A, 0x83, 0x04 };
 
 
 // IPSC Commands
-unsigned char requestPacketIPSC[] = { "Smartek#I#0050C2708B46#F#192.168.1.26#255.255.255.0#IPSC2\r"};
+unsigned char requestPacketIPSC[] = { "Smartek#I#6CD1XXXXXXXX#F#192.168.1.30#255.255.255.0#IPSC1\r" };
 
 // Send callback function
 void SendCb(uv_udp_send_t* req, int status) {
@@ -48,10 +47,15 @@ void SendPacket(uv_udp_t* socket, const unsigned char* packet, size_t packetSize
     uv_udp_send_t* send_req = (uv_udp_send_t*)malloc(sizeof(uv_udp_send_t));
     uv_buf_t buffer = uv_buf_init((char*)packet, packetSize);
     int status = uv_udp_send(send_req, socket, &buffer, 1, (const struct sockaddr*)addr, SendCb);
-    if (status == 0) {
-        std::cout << "Request sent." << std::endl;
+
+    if (status < 0) {
+        std::cerr << "Failed to send UDP packet: " << uv_strerror(status) << std::endl;
+    }
+    else {
+        std::cout << "UDP packet queued for sending." << std::endl;
     }
 }
+
 
 void AllocCb(uv_handle_t* client, size_t suggested_size, uv_buf_t* buf) {
     buf->base = (char*)malloc(suggested_size);
@@ -68,19 +72,20 @@ int main() {
 
     uv_udp_init(g_loop, &g_sendSocket);
     struct sockaddr_in local_addr;
-    uv_ip4_addr("192.168.1.100", 54188, &local_addr);    // Change for the IP address of your computer
+    uv_ip4_addr("172.16.101.6", 54188, &local_addr);    // Change for the IP address of your computer
     uv_udp_bind(&g_sendSocket, (const struct sockaddr*)&local_addr, 0);
+
     uv_udp_set_broadcast(&g_sendSocket, 1);
 
     struct sockaddr_in send_addr_HPSC;
-    uv_ip4_addr("192.168.1.25", 30311, &send_addr_HPSC); // Change for the IP address of the HPSC
+    uv_ip4_addr("255.255.255.255", 30311, &send_addr_HPSC); // Try first with this IP, if fail change for the IP address of the Strobe
 
     // Send HPSC Commands
-    SendPacket(&g_sendSocket, requestPacketHPSC, sizeof(requestPacketHPSC), &send_addr_HPSC);
-    SendPacket(&g_sendSocket, requestPacketHPSC1, sizeof(requestPacketHPSC1), &send_addr_HPSC);
-    
+    //SendPacket(&g_sendSocket, requestPacketHPSC, sizeof(requestPacketHPSC), &send_addr_HPSC);
+    //SendPacket(&g_sendSocket, requestPacketHPSC1, sizeof(requestPacketHPSC1), &send_addr_HPSC);
+
     // Send IPSC Commands
-    //SendPacket(&g_sendSocket, requestPacketIPSC, sizeof(requestPacketIPSC), &send_addr_HPSC);
+    SendPacket(&g_sendSocket, requestPacketIPSC, sizeof(requestPacketIPSC), &send_addr_HPSC);
 
     uv_run(g_loop, UV_RUN_DEFAULT);
 
